@@ -1,0 +1,18 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  unitest-test
+  namespace: default
+  labels:
+    app:  unitest-test
+spec:
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+    spec:
+      containers:
+      - name:  unitest-test
+        image:  httpd
+        imagePullPolicy: IfNotPresent
